@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Green Grids - Soil Analysis 🌱</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #e1f5c4;
+            margin: 0;
+            background-image: url('https://www.transparenttextures.com/patterns/green-dust-and-scratches.png');
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(34, 139, 34, 0.5);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            border: 2px solid #4CAF50;
+        }
+        h1 {
+            color: #2d6a4f;
+        }
+        .upload-section, .language-section {
+            margin: 20px 0;
+        }
+        .upload-btn, .language-select {
+            background: #4CAF50;
+            color: white;
+            padding: 12px 18px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        #analyze-btn {
+            background: #ff9800;
+            color: white;
+            padding: 12px 18px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .result-section, .recommendation-section {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: left;
+        }
+        .result-section {
+            background: #d4edda;
+            border: 1px solid #155724;
+        }
+        .recommendation-section {
+            background: #fff3cd;
+            border: 1px solid #856404;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #155724;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 id="title">🌿 Green Grids - Soil Health Analysis 🌱</h1>
+        <div class="language-section">
+            <label for="language">🌍 <span id="language-label">Choose Language:</span></label>
+            <select id="language" class="language-select">
+                <option value="en">English</option>
+                <option value="ta">தமிழ்</option>
+                <option value="hi">हिन्दी</option>
+            </select>
+        </div>
+        <div class="upload-section">
+            <label for="soil-image" class="upload-btn" id="upload-label">📤 Upload Soil Image</label>
+            <input type="file" id="soil-image" accept="image/*" hidden>
+            <p id="file-name">📁 No file chosen</p>
+        </div>
+        <button id="analyze-btn">🔍 Analyze Soil</button>
+        <div class="result-section" id="result">
+            <h2 id="report-title">📜 Soil Analysis Report</h2>
+            <table>
+                <tr>
+                    <th>Factor</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+                    <td>🌍 Soil Type</td>
+                    <td id="soil-type">-</td>
+                </tr>
+                <tr>
+                    <td>💧 Salinity</td>
+                    <td id="salinity">-</td>
+                </tr>
+                <tr>
+                    <td>🧪 pH Level</td>
+                    <td id="ph">-</td>
+                </tr>
+                <tr>
+                    <td>🌾 Recommended Fertilizer</td>
+                    <td id="fertilizer">-</td>
+                </tr>
+                <tr>
+                    <td>⚖️ Amount Required</td>
+                    <td id="amount">-</td>
+                </tr>
+            </table>
+        </div>
+        <div class="recommendation-section" id="recommendation">
+            <h2 id="recommend-title">🌾 Farmer Recommendations</h2>
+            <p id="rec1">✅ Use cover crops to prevent soil erosion.</p>
+            <p id="rec2">✅ Apply organic manure for improved soil structure.</p>
+            <p id="rec3">✅ Maintain proper irrigation to avoid salinity buildup.</p>
+            <p id="rec4">✅ Conduct regular soil testing for optimal nutrient management.</p>
+        </div>
+    </div>
+    <script>
+        document.getElementById('soil-image').addEventListener('change', function(event) {
+            let fileName = event.target.files.length ? event.target.files[0].name : "📁 No file chosen";
+            document.getElementById('file-name').innerText = fileName;
+        });
+        
+        document.getElementById('analyze-btn').addEventListener('click', function() {
+            let fileInput = document.getElementById('soil-image');
+            if (!fileInput.files.length) {
+                alert('Please upload a soil image before analysis!');
+                return;
+            }
+            
+            document.getElementById('result').style.display = 'block';
+            document.getElementById('recommendation').style.display = 'block';
+            document.getElementById('soil-type').innerText = 'Clayey Soil';
+            document.getElementById('salinity').innerText = 'Low';
+            document.getElementById('ph').innerText = '6.5';
+            document.getElementById('fertilizer').innerText = 'Nitrogen-based Fertilizer';
+            document.getElementById('amount').innerText = '30 kg per hectare';
+            
+        });
+    </script>
+</body>
+</html>
