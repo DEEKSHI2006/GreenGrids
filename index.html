@@ -1,70 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ta">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Green Grids - Soil Analysis 🌱</title>
+    <title>🌱 பசுமை கிரிட்ஸ் - மண் ஆரோக்கியம் 🌿</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Noto Sans Tamil', sans-serif;
+            background-color: #e8f5e9;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #e1f5c4;
             margin: 0;
-            background-image: url('https://www.transparenttextures.com/patterns/green-dust-and-scratches.png');
         }
         .container {
             background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(34, 139, 34, 0.5);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 128, 0, 0.2);
             text-align: center;
+            width: 90%;
             max-width: 500px;
-            width: 100%;
-            border: 2px solid #4CAF50;
         }
         h1 {
-            color: #2d6a4f;
+            color: #2e7d32;
         }
-        .upload-section, .language-section {
+        .upload-section {
             margin: 20px 0;
-        }
-        .upload-btn, .language-select {
-            background: #4CAF50;
-            color: white;
-            padding: 12px 18px;
-            border: none;
+            border: 2px dashed #4caf50;
+            padding: 20px;
             cursor: pointer;
+            border-radius: 10px;
+            text-align: center;
+            background: #f1f8e9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .upload-section input {
+            display: none;
+        }
+        .btn {
+            background: #4caf50;
+            color: white;
+            padding: 12px;
+            border: none;
             border-radius: 5px;
             font-weight: bold;
-        }
-        #analyze-btn {
-            background: #ff9800;
-            color: white;
-            padding: 12px 18px;
-            border: none;
             cursor: pointer;
-            border-radius: 5px;
-            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+            width: 100%;
         }
-        .result-section, .recommendation-section {
+        .result-section {
             display: none;
             margin-top: 20px;
             padding: 15px;
-            border-radius: 5px;
-            text-align: left;
-        }
-        .result-section {
-            background: #d4edda;
-            border: 1px solid #155724;
-        }
-        .recommendation-section {
-            background: #fff3cd;
-            border: 1px solid #856404;
+            background: #d7ffd9;
+            border-radius: 10px;
         }
         table {
             width: 100%;
@@ -72,91 +68,89 @@
             margin-top: 10px;
         }
         th, td {
-            border: 1px solid #155724;
-            padding: 8px;
+            border: 1px solid #388e3c;
+            padding: 10px;
             text-align: left;
         }
         th {
-            background: #4CAF50;
+            background: #388e3c;
             color: white;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1 id="title">🌿 Green Grids - Soil Health Analysis 🌱</h1>
-        <div class="language-section">
-            <label for="language">🌍 <span id="language-label">Choose Language:</span></label>
-            <select id="language" class="language-select">
-                <option value="en">English</option>
-                <option value="ta">தமிழ்</option>
-                <option value="hi">हिन्दी</option>
-            </select>
-        </div>
-        <div class="upload-section">
-            <label for="soil-image" class="upload-btn" id="upload-label">📤 Upload Soil Image</label>
-            <input type="file" id="soil-image" accept="image/*" hidden>
-            <p id="file-name">📁 No file chosen</p>
-        </div>
-        <button id="analyze-btn">🔍 Analyze Soil</button>
-        <div class="result-section" id="result">
-            <h2 id="report-title">📜 Soil Analysis Report</h2>
-            <table>
+        <h1 id="page-title">🌿 பசுமை கிரிட்ஸ் - மண் ஆரோக்கியம் 🌱</h1>
+        
+        <label class="upload-section" id="upload-label">
+            <p id="upload-text">📷 படத்தை இங்கே இழுத்துவிடுங்கள் அல்லது தேர்ந்தெடுக்கவும் 🌍</p>
+            <input type="file" id="soil-image" accept="image/*">
+        </label>
+
+        <select id="language-select" class="btn">🌍
+            <option value="ta">🇮🇳 தமிழ்</option>
+            <option value="en">🇬🇧 English</option>
+        </select>
+
+        <button class="btn" id="analyze-btn">🔬 பரிசோதனை செய்</button>
+
+        <div class="result-section" id="result-section">
+            <h2 id="result-title">📊 மண் ஆரோக்கியம் முடிவுகள்</h2>
+            <table id="result-table">
                 <tr>
-                    <th>Factor</th>
-                    <th>Value</th>
-                </tr>
-                <tr>
-                    <td>🌍 Soil Type</td>
-                    <td id="soil-type">-</td>
-                </tr>
-                <tr>
-                    <td>💧 Salinity</td>
-                    <td id="salinity">-</td>
-                </tr>
-                <tr>
-                    <td>🧪 pH Level</td>
-                    <td id="ph">-</td>
-                </tr>
-                <tr>
-                    <td>🌾 Recommended Fertilizer</td>
-                    <td id="fertilizer">-</td>
-                </tr>
-                <tr>
-                    <td>⚖️ Amount Required</td>
-                    <td id="amount">-</td>
+                    <th id="table-heading-1">📏 அளவீட்டு பகுதி</th>
+                    <th id="table-heading-2">📌 மதிப்பீடு</th>
                 </tr>
             </table>
         </div>
-        <div class="recommendation-section" id="recommendation">
-            <h2 id="recommend-title">🌾 Farmer Recommendations</h2>
-            <p id="rec1">✅ Use cover crops to prevent soil erosion.</p>
-            <p id="rec2">✅ Apply organic manure for improved soil structure.</p>
-            <p id="rec3">✅ Maintain proper irrigation to avoid salinity buildup.</p>
-            <p id="rec4">✅ Conduct regular soil testing for optimal nutrient management.</p>
-        </div>
     </div>
+
     <script>
-        document.getElementById('soil-image').addEventListener('change', function(event) {
-            let fileName = event.target.files.length ? event.target.files[0].name : "📁 No file chosen";
-            document.getElementById('file-name').innerText = fileName;
+        const translations = {
+            ta: {
+                title: "🌿 பசுமை கிரிட்ஸ் - மண் ஆரோக்கியம் 🌱",
+                upload: "📷 படத்தை இங்கே இழுத்துவிடுங்கள் அல்லது தேர்ந்தெடுக்கவும் 🌍",
+                analyze: "🔬 பரிசோதனை செய்",
+                resultTitle: "📊 மண் ஆரோக்கியம் முடிவுகள்",
+                tableHead1: "📏 அளவீட்டு பகுதி",
+                tableHead2: "📌 மதிப்பீடு"
+            },
+            en: {
+                title: "🌿 Green Grids - Soil Health 🌱",
+                upload: "📷 Drag & Drop or Select an Image 🌍",
+                analyze: "🔬 Analyze",
+                resultTitle: "📊 Soil Health Results",
+                tableHead1: "📏 Measurement Area",
+                tableHead2: "📌 Evaluation"
+            }
+        };
+
+        document.getElementById('language-select').addEventListener('change', function() {
+            const lang = this.value;
+            document.getElementById('page-title').innerText = translations[lang].title;
+            document.getElementById('upload-text').innerText = translations[lang].upload;
+            document.getElementById('analyze-btn').innerText = translations[lang].analyze;
+            document.getElementById('result-title').innerText = translations[lang].resultTitle;
+            document.getElementById('table-heading-1').innerText = translations[lang].tableHead1;
+            document.getElementById('table-heading-2').innerText = translations[lang].tableHead2;
         });
-        
-        document.getElementById('analyze-btn').addEventListener('click', function() {
-            let fileInput = document.getElementById('soil-image');
-            if (!fileInput.files.length) {
-                alert('Please upload a soil image before analysis!');
+
+        document.getElementById('analyze-btn').addEventListener('click', function () {
+            const fileInput = document.getElementById('soil-image');
+            if (fileInput.files.length === 0) {
+                alert(translations[document.getElementById('language-select').value].upload);
                 return;
             }
-            
-            document.getElementById('result').style.display = 'block';
-            document.getElementById('recommendation').style.display = 'block';
-            document.getElementById('soil-type').innerText = 'Clayey Soil';
-            document.getElementById('salinity').innerText = 'Low';
-            document.getElementById('ph').innerText = '6.5';
-            document.getElementById('fertilizer').innerText = 'Nitrogen-based Fertilizer';
-            document.getElementById('amount').innerText = '30 kg per hectare';
-            
+            document.getElementById('result-section').style.display = 'block';
+            const resultTable = document.getElementById('result-table');
+            resultTable.innerHTML += `
+                <tr><td>🌡 pH Level</td><td>6.5 (Neutral) ✅</td></tr>
+                <tr><td>💧 Moisture Content</td><td>30% (Optimal) 🌱</td></tr>
+                <tr><td>🌿 Nutrient Level</td><td>High (Good for crops) 🏆</td></tr>
+                <tr><td>🍂 Organic Matter</td><td>4.5% (Healthy) 💚</td></tr>
+                <tr><td>🧂 Salinity</td><td>Low (Safe for plants) ✅</td></tr>
+                <tr><td>🌾 Soil Texture</td><td>Loamy (Ideal for agriculture) 🌾</td></tr>
+            `;
         });
     </script>
 </body>
